@@ -1,0 +1,14 @@
+/home/xlini/Documents/Scuola/Progetti_C#/CassaNegozio/bin/Release/net10.0/Registratore di Cassa
+/home/xlini/Documents/Scuola/Progetti_C#/CassaNegozio/bin/Release/net10.0/Registratore di Cassa.deps.json
+/home/xlini/Documents/Scuola/Progetti_C#/CassaNegozio/bin/Release/net10.0/Registratore di Cassa.runtimeconfig.json
+/home/xlini/Documents/Scuola/Progetti_C#/CassaNegozio/bin/Release/net10.0/Registratore di Cassa.dll
+/home/xlini/Documents/Scuola/Progetti_C#/CassaNegozio/bin/Release/net10.0/Registratore di Cassa.pdb
+/home/xlini/Documents/Scuola/Progetti_C#/CassaNegozio/obj/Release/net10.0/CassaNegozio.GeneratedMSBuildEditorConfig.editorconfig
+/home/xlini/Documents/Scuola/Progetti_C#/CassaNegozio/obj/Release/net10.0/CassaNegozio.AssemblyInfoInputs.cache
+/home/xlini/Documents/Scuola/Progetti_C#/CassaNegozio/obj/Release/net10.0/CassaNegozio.AssemblyInfo.cs
+/home/xlini/Documents/Scuola/Progetti_C#/CassaNegozio/obj/Release/net10.0/CassaNegozio.csproj.CoreCompileInputs.cache
+/home/xlini/Documents/Scuola/Progetti_C#/CassaNegozio/obj/Release/net10.0/Registratore di Cassa.dll
+/home/xlini/Documents/Scuola/Progetti_C#/CassaNegozio/obj/Release/net10.0/refint/Registratore di Cassa.dll
+/home/xlini/Documents/Scuola/Progetti_C#/CassaNegozio/obj/Release/net10.0/Registratore di Cassa.pdb
+/home/xlini/Documents/Scuola/Progetti_C#/CassaNegozio/obj/Release/net10.0/CassaNegozio.genruntimeconfig.cache
+/home/xlini/Documents/Scuola/Progetti_C#/CassaNegozio/obj/Release/net10.0/ref/Registratore di Cassa.dll

@@ -1,0 +1,2 @@
+/home/xlini/Documents/Scuola/Progetti_C#/CassaNegozio/bin/Release/net10.0/linux-x64/publish/Registratore di Cassa.pdb
+/home/xlini/Documents/Scuola/Progetti_C#/CassaNegozio/bin/Release/net10.0/linux-x64/publish/Registratore di Cassa

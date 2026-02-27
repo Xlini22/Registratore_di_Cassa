@@ -1,13 +1,36 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Xml.Schema;
+using System.Runtime.InteropServices;
+using System.Text;
+//slavare il riepilogo su file con [nome cliente] [servizi] [numero incrementale] [data e ora] [metodo di pagamento]
 
 namespace CassaNegozio
 {
     internal class Program
     {
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern bool GetConsoleMode(IntPtr hConsoleHandle, out uint lpMode);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern bool SetConsoleMode(IntPtr hConsoleHandle, uint dwMode);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern IntPtr GetStdHandle(int nStdHandle);
+
+        const int STD_OUTPUT_HANDLE = -11;
+        const uint ENABLE_VIRTUAL_TERMINAL_PROCESSING = 0x0004;
+
+
         static void Main(string[] args)
         {
+            Console.OutputEncoding = Encoding.UTF8;
+
+            if (OperatingSystem.IsWindows())
+            {
+                EnableWindowsAnsi();
+            }
+
             int prestazione, variante;
             double totale = 0;
             bool errore = false;
@@ -386,6 +409,16 @@ namespace CassaNegozio
             // "TOTALE:" allineato a sinistra (20), totale a destra (8) in verde
             righe.Add($"\u001b[32m{"TOTALE:",-20}{(totale + "€"),8}\u001b[0m");
             return righe;
+        }
+
+        static void EnableWindowsAnsi()
+        {
+            var handle = GetStdHandle(STD_OUTPUT_HANDLE);
+
+            if (GetConsoleMode(handle, out uint mode))
+            {
+                SetConsoleMode(handle, mode | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
+            }
         }
     }
 }

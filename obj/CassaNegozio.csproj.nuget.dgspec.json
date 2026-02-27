@@ -1,25 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "/home/xlini/Documents/Scuola/Progetti_C#/CassaNegozio/CassaNegozio.csproj": {}
+    "C:\\Users\\utente\\source\\repos\\Registratore_di_Cassa\\CassaNegozio.csproj": {}
   },
   "projects": {
-    "/home/xlini/Documents/Scuola/Progetti_C#/CassaNegozio/CassaNegozio.csproj": {
+    "C:\\Users\\utente\\source\\repos\\Registratore_di_Cassa\\CassaNegozio.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/xlini/Documents/Scuola/Progetti_C#/CassaNegozio/CassaNegozio.csproj",
+        "projectUniqueName": "C:\\Users\\utente\\source\\repos\\Registratore_di_Cassa\\CassaNegozio.csproj",
         "projectName": "Registratore di Cassa",
-        "projectPath": "/home/xlini/Documents/Scuola/Progetti_C#/CassaNegozio/CassaNegozio.csproj",
-        "packagesPath": "/home/xlini/.nuget/packages/",
-        "outputPath": "/home/xlini/Documents/Scuola/Progetti_C#/CassaNegozio/obj/",
+        "projectPath": "C:\\Users\\utente\\source\\repos\\Registratore_di_Cassa\\CassaNegozio.csproj",
+        "packagesPath": "C:\\Users\\utente\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\utente\\source\\repos\\Registratore_di_Cassa\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "E:\\VisualStudio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/home/xlini/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\utente\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -43,6 +49,14 @@
       "frameworks": {
         "net10.0": {
           "targetAlias": "net10.0",
+          "dependencies": {
+            "Microsoft.NET.ILLink.Tasks": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[10.0.3, )",
+              "autoReferenced": true
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -56,8 +70,20 @@
           "warn": true,
           "downloadDependencies": [
             {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[10.0.0, 10.0.0]"
+              "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
+              "version": "[10.0.3, 10.0.3]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[10.0.3, 10.0.3]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Runtime.win-x64",
+              "version": "[10.0.3, 10.0.3]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
+              "version": "[10.0.3, 10.0.3]"
             }
           ],
           "frameworkReferences": {
@@ -65,7 +91,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.100/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files (x86)\\dotnet\\sdk\\10.0.103/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
@@ -340,6 +366,11 @@
             "System.Xml.XPath": "(,4.3.32767]",
             "System.Xml.XPath.XDocument": "(,5.0.32767]"
           }
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
         }
       }
     }

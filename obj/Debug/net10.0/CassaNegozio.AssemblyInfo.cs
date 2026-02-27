@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Registratore di Cassa")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+424f1f742f6a8da8e46bb2ee59408e2b924bb15e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b90e38145b0b404e25e8d125be73014436b19eb1")]
 [assembly: System.Reflection.AssemblyProductAttribute("Registratore di Cassa")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Registratore di Cassa")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

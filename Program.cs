@@ -1,9 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Xml.Schema;
 using System.Runtime.InteropServices;
 using System.Text;
-//slavare il riepilogo su file con [nome cliente] [servizi] [numero incrementale] [data e ora] [metodo di pagamento]
+using System.Globalization;
+using System.Xml.Schema;
+//salvare il riepilogo su file con [nome cliente] [servizi] [numero incrementale] [data e ora] [metodo di pagamento]
 
 namespace CassaNegozio
 {
@@ -31,7 +32,8 @@ namespace CassaNegozio
                 EnableWindowsAnsi();
             }
 
-            int prestazione, variante;
+            string comando;
+            int variante;
             double totale = 0;
             bool errore = false;
             string[,] riepilogo = new string[20, 2]; // 20 righe, 2 colonne (descrizione e prezzo)
@@ -49,12 +51,14 @@ namespace CassaNegozio
                     errore = false; // Resetta l'errore per il prossimo ciclo
                 }
                 errore = false; // Resetta l'errore per il prossimo ciclo
-                prestazione = InserimentoControlloN(false, "SCELTA:");
-                if(prestazione != 0)
+
+                comando = InserimentoStringa(false, "SCELTA:");
+
+                if(comando != "exit")
                 {
-                    switch (prestazione)
+                    switch (comando)
                     {
-                        case 1: // Piega
+                        case "1": // Piega
                             Console.Clear();
                             Console.WriteLine("PIEGA");
                             Console.WriteLine();
@@ -87,32 +91,32 @@ namespace CassaNegozio
                                     break;
                             }
                             break;
-                        case 2: // Taglio
+                        case "2": // Taglio
                             Console.Clear();
                             totale += 24;
                             riepilogo[count, 0] = "Taglio";
                             riepilogo[count, 1] = "24€";
                             count++;
                             break;
-                        case 3: // Balsamo
+                        case "3": // Balsamo
                             Console.Clear();
                             Console.WriteLine("BALSAMO");
                             Console.WriteLine();
-                            Console.WriteLine("Default: Normale (2.5€)");
-                            Console.WriteLine("2.       System (3.5€)");
+                            Console.WriteLine("Default: Normale (2,5€)");
+                            Console.WriteLine("2.       System (3,5€)");
                             variante = InserimentoControlloN(true, "SCELTA:");
                             switch (variante)
                             {
                                 case 1:
-                                    totale += 2.5;
+                                    totale += double.Parse("2,5", CultureInfo.InvariantCulture);
                                     riepilogo[count, 0] = "Balsamo";
-                                    riepilogo[count, 1] = "2.5€";
+                                    riepilogo[count, 1] = "2,5€";
                                     count++;
                                     break;
                                 case 2:
                                     totale += 3.5;
                                     riepilogo[count, 0] = "Balsamo System";
-                                    riepilogo[count, 1] = "3.5€";
+                                    riepilogo[count, 1] = "3,5€";
                                     count++;
                                     break;
                                 default:
@@ -120,14 +124,14 @@ namespace CassaNegozio
                                     break;
                             }
                             break;
-                        case 4: // Schiuma-gel
+                        case "4": // Schiuma-gel
                             Console.Clear();
                             totale += 1;
                             riepilogo[count, 0] = "Schiuma-gel";
                             riepilogo[count, 1] = "1€";
                             count++;
                             break;
-                        case 5: // Shampoo
+                        case "5": // Shampoo
                             Console.Clear();
                             Console.WriteLine("SHAMPOO");
                             Console.WriteLine();
@@ -153,7 +157,7 @@ namespace CassaNegozio
                                     break;
                             }
                             break;
-                        case 7: // Colore
+                        case "7": // Colore
                             Console.Clear();
                             Console.WriteLine("COLORE");
                             Console.WriteLine();
@@ -179,7 +183,7 @@ namespace CassaNegozio
                                     break;
                             }
                             break;
-                        case 9: // Meches
+                        case "9": // Meches
                             Console.Clear();
                             Console.WriteLine("MECHES");
                             Console.WriteLine();
@@ -205,14 +209,14 @@ namespace CassaNegozio
                                     break;
                             }
                             break;
-                        case 44: // Lozione anticaduta
+                        case "44": // Lozione anticaduta
                             Console.Clear();
                             totale += 6;
                             riepilogo[count, 0] = "Lozione anticaduta";
                             riepilogo[count, 1] = "6€";
                             count++;
                             break;
-                        case 22: // Voce personalizzata
+                        case "22": // Voce personalizzata
                             Console.Clear();
                             Console.Write("Inserisci descrizione: ");
                             string descrizione = Console.ReadLine() ?? string.Empty;
@@ -221,7 +225,7 @@ namespace CassaNegozio
                             {
                                 Console.Write("Inserisci prezzo: ");
                                 string inputPrezzo = Console.ReadLine() ?? string.Empty;
-                                if (double.TryParse(inputPrezzo, out prezzo))
+                                if (double.TryParse(inputPrezzo, CultureInfo.InvariantCulture, out prezzo))
                                 {
                                     break;
                                 }
@@ -236,7 +240,7 @@ namespace CassaNegozio
                             riepilogo[count, 1] = $"{prezzo}€";
                             count++;
                             break;
-                        case 99: // Cancella ultimo inserimento
+                        case "99": // Cancella ultimo inserimento
                             Console.WriteLine("Hai scelto: Cancella ultimo inserimento");
                             if (count > 0)
                             {
@@ -250,7 +254,7 @@ namespace CassaNegozio
                                 errore = true; // Non ci sono prestazioni da cancellare
                             }
                             break;
-                        case 999: // Cancella tutto
+                        case "999": // Cancella tutto
                             if(count > 0)
                             {
                                 while (count > 0)
@@ -270,10 +274,10 @@ namespace CassaNegozio
                             break;
                     }
                 }
-            }while (prestazione != 0);
+            }while (comando != "exit");
         }
-    
-        
+
+
         /// <summary>
         /// Chiede all'utente di inserire un numero intero e lo restituisce.
         /// Continua a chiedere finché l'input non è valido.
@@ -309,6 +313,34 @@ namespace CassaNegozio
             } while (!r);
 
             return valore;
+        }
+
+        /// <summary>
+        /// Funzione simile a InserimentoControlloN ma restituisce una stringa (per poter accettare anche input vuoti come default)
+        /// </summary>
+        /// <param name="defaultAllow">Se true, permette di accettare un input vuoto come valore predefinito (1)</param>
+        /// <param name="messaggio">Il messaggio da mostrare all'utente</param>
+        /// <returns>La stringa inserita dall'utente o un valore predefinito</returns>
+        static string InserimentoStringa(bool defaultAllow, string messaggio)
+        {
+            string input;
+
+            Console.Write(messaggio);
+            input = Console.ReadLine() ?? string.Empty;
+
+            // Se preme solo Invio (vuoto o spazi) → valore = 1
+            if (string.IsNullOrWhiteSpace(input) && defaultAllow)
+            {
+                input = "1";
+                return input;
+            }
+            else if (string.IsNullOrWhiteSpace(input) && !defaultAllow)
+            {
+                input = "-1"; // Segnale errore per input vuoto non permesso
+                return input;
+            }
+
+            return input;
         }
 
         /// <summary>
@@ -387,7 +419,7 @@ namespace CassaNegozio
                 "99. Cancella ultimo inserimento",
                 "999. Cancella tutto",
                 "",
-                "0.  ESCI",
+                "exit.  ESCI",
                 "",
             ];
             return righe;
@@ -403,7 +435,9 @@ namespace CassaNegozio
             {
                 // Allinea la descrizione a sinistra (20 caratteri) e il prezzo a destra (8 caratteri)
                 righe.Add($"{riepilogo[i, 0],-20}{riepilogo[i, 1],8}");
-                totale += double.Parse(riepilogo[i, 1].Replace("€", ""));
+                string prezzo = riepilogo[i, 1].Replace("€", "").Trim(); // Rimuove il simbolo "€" e spazi
+                prezzo = prezzo.Replace('.', ',');
+                totale += double.Parse(prezzo);
             }
             righe.Add("");
             // "TOTALE:" allineato a sinistra (20), totale a destra (8) in verde
@@ -411,6 +445,7 @@ namespace CassaNegozio
             return righe;
         }
 
+        // Abilita il supporto ANSI su Windows per poter usare i colori
         static void EnableWindowsAnsi()
         {
             var handle = GetStdHandle(STD_OUTPUT_HANDLE);

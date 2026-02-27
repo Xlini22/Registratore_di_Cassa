@@ -1,14 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6gawDemuHs4=",
+  "dgSpecHash": "oqrDLwOJHjw=",
   "success": true,
   "projectFilePath": "C:\\Users\\utente\\source\\repos\\Registratore_di_Cassa\\CassaNegozio.csproj",
-  "expectedPackageFiles": [
-    "C:\\Users\\utente\\.nuget\\packages\\microsoft.net.illink.tasks\\10.0.3\\microsoft.net.illink.tasks.10.0.3.nupkg.sha512",
-    "C:\\Users\\utente\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\10.0.3\\microsoft.netcore.app.runtime.win-x64.10.0.3.nupkg.sha512",
-    "C:\\Users\\utente\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\10.0.3\\microsoft.windowsdesktop.app.runtime.win-x64.10.0.3.nupkg.sha512",
-    "C:\\Users\\utente\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\10.0.3\\microsoft.aspnetcore.app.runtime.win-x64.10.0.3.nupkg.sha512",
-    "C:\\Users\\utente\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\10.0.3\\microsoft.netcore.app.host.win-x64.10.0.3.nupkg.sha512"
-  ],
+  "expectedPackageFiles": [],
   "logs": []
 }

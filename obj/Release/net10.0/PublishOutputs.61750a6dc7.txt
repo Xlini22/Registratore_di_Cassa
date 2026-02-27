@@ -1,5 +1,0 @@
-/home/xlini/Documents/Scuola/Progetti_C#/CassaNegozio/bin/Release/net10.0/publish/Registratore di Cassa
-/home/xlini/Documents/Scuola/Progetti_C#/CassaNegozio/bin/Release/net10.0/publish/Registratore di Cassa.dll
-/home/xlini/Documents/Scuola/Progetti_C#/CassaNegozio/bin/Release/net10.0/publish/Registratore di Cassa.deps.json
-/home/xlini/Documents/Scuola/Progetti_C#/CassaNegozio/bin/Release/net10.0/publish/Registratore di Cassa.runtimeconfig.json
-/home/xlini/Documents/Scuola/Progetti_C#/CassaNegozio/bin/Release/net10.0/publish/Registratore di Cassa.pdb

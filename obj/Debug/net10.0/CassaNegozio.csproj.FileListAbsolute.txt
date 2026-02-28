@@ -12,3 +12,4 @@ C:\Users\utente\source\repos\Registratore_di_Cassa\obj\Debug\net10.0\refint\Regi
 C:\Users\utente\source\repos\Registratore_di_Cassa\obj\Debug\net10.0\Registratore di Cassa.pdb
 C:\Users\utente\source\repos\Registratore_di_Cassa\obj\Debug\net10.0\CassaNegozio.genruntimeconfig.cache
 C:\Users\utente\source\repos\Registratore_di_Cassa\obj\Debug\net10.0\ref\Registratore di Cassa.dll
+C:\Users\utente\source\repos\Registratore_di_Cassa\obj\Debug\net10.0\CassaNegozio.sourcelink.json

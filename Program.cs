@@ -35,6 +35,7 @@ namespace CassaNegozio
             string comando;
             int variante;
             int count = 0; // Contatore per il riepilogo
+            int salvato = 0;
             bool errore = false;
             string[,] riepilogo = new string[20, 2]; // 20 righe, 2 colonne (descrizione e prezzo)
             string nomeCliente = "", metodoPagamento = "";
@@ -51,6 +52,37 @@ namespace CassaNegozio
                     errore = false; // Resetta l'errore per il prossimo ciclo
                 }
                 errore = false; // Resetta l'errore per il prossimo ciclo
+
+                if (salvato > 0)
+                {
+                    // 1 successo
+                    // 2 errore metodo di pagamento mancante
+                    // 3 errore nome cliente mancante
+                    // 4 errore prestazioni mancanti
+                    // 5 errore nome cliente e metodo di pagamento mancanti
+
+                    if (salvato == 1)
+                    {
+                        Console.WriteLine($"\u001b[32m✓ Scontrino salvato con successo in /Documenti/ScontriniConsole\u001b[0m");
+                    }
+                    else if(salvato == 2)
+                    {
+                        Console.WriteLine("\u001b[31m⚠ ERRORE: Metodo di pagamento mancante!\u001b[0m");
+                    }
+                    else if(salvato == 3)
+                    {
+                        Console.WriteLine("\u001b[31m⚠ ERRORE: Nome cliente mancante!\u001b[0m");
+                    }
+                    else if(salvato == 4)
+                    {
+                        Console.WriteLine("\u001b[31m⚠ ERRORE: Devi inserire almento una prestazione!\u001b[0m");
+                    }
+                    else if (salvato == 5)
+                    {
+                        Console.WriteLine("\u001b[31m⚠ ERRORE: Devi inserire il metodo di pagamento e il nome cliente!\u001b[0m");
+                    }
+                    salvato = 0; // Resetta il contatore dei salvataggi per il prossimo ciclo
+                }
 
                 comando = InserimentoStringa(false, "SCELTA:");
 
@@ -277,16 +309,38 @@ namespace CassaNegozio
                             }
                             break;
                         case "0": // Salva scontrino su file e resetta tutto
-                            if (count > 0)
+                            if (count > 0) // casi in cui le prestazioni sono state inserite ma mancano altri fattori
                             {
-                                while (count > 0)
+                                if (!string.IsNullOrWhiteSpace(nomeCliente) && !string.IsNullOrWhiteSpace(metodoPagamento))
                                 {
-                                    count--;
-                                    riepilogo[count, 0] = "";
-                                    riepilogo[count, 1] = "";
+                                    List<string> righe = CreaRiepilogoString(riepilogo, count, nomeCliente, metodoPagamento);
+                                    SalvaScontrinoCliente(righe, nomeCliente);
+
+                                    while (count > 0)
+                                    {
+                                        count--;
+                                        riepilogo[count, 0] = "";
+                                        riepilogo[count, 1] = "";
+                                    }
+                                    salvato = 1;
+                                }
+                                else if (!string.IsNullOrWhiteSpace(nomeCliente) && string.IsNullOrWhiteSpace(metodoPagamento)) // Caso in cui solo il metodo di pagamento non è stato inserito
+                                {
+                                    salvato = 2; // Codice errore 2
+                                }
+                                else if (string.IsNullOrWhiteSpace(nomeCliente) && !string.IsNullOrWhiteSpace(metodoPagamento)) // Caso in cui solo il nome cliente non è stato inserito
+                                {
+                                    salvato = 3; // Codice errore 3
+                                }
+                                else if (string.IsNullOrWhiteSpace(nomeCliente) && string.IsNullOrWhiteSpace(metodoPagamento)) // Caso in cui non è stato inserito né il nome cliente né il metodo di pagamento
+                                {
+                                    salvato = 5; // Codice errore 5
                                 }
                             }
-                            else
+                            else if (count == 0) // Caso in cui non ci sono prestazioni
+                            {
+                                salvato = 4; // Codice errore 4
+                            }else
                             {
                                 errore = true;
                             }
@@ -429,32 +483,67 @@ namespace CassaNegozio
         {
             List<string> righe = [];
             double totale = 0;
-            righe.Add("RIEPILOGO:");
-
-            righe.Add("");
-            if (!string.IsNullOrWhiteSpace(nomeCliente)) //controllache il nome cliente non sia vuoto o solo spazi prima di aggiungerlo al riepilogo
+            if(count > 0 || !string.IsNullOrWhiteSpace(nomeCliente) || !string.IsNullOrWhiteSpace(metodoPagamento))
             {
-                righe.Add("Cliente: " + nomeCliente);
-            }
+                righe.Add("RIEPILOGO:");
 
-            if (!string.IsNullOrWhiteSpace(metodoPagamento)) //controlla che il metodo di pagamento non sia vuoto o solo spazi prima di aggiungerlo al riepilogo
-            {
-                righe.Add("Pagamento: " + metodoPagamento);
-            }
-            righe.Add("");
+                righe.Add("");
+                if (!string.IsNullOrWhiteSpace(nomeCliente)) //controllache il nome cliente non sia vuoto o solo spazi prima di aggiungerlo al riepilogo
+                {
+                    righe.Add("Cliente: " + nomeCliente);
+                }
 
-            for (int i = 0; i < count; i++)
-            {
-                // Allinea la descrizione a sinistra (20 caratteri) e il prezzo a destra (8 caratteri)
-                righe.Add($"{riepilogo[i, 0],-20}{riepilogo[i, 1],8}");
-                string prezzo = riepilogo[i, 1].Replace("€", "").Trim(); // Rimuove il simbolo "€" e spazi
-                prezzo = prezzo.Replace('.', ',');
-                totale += double.Parse(prezzo);
+                if (!string.IsNullOrWhiteSpace(metodoPagamento)) //controlla che il metodo di pagamento non sia vuoto o solo spazi prima di aggiungerlo al riepilogo
+                {
+                    righe.Add("Pagamento: " + metodoPagamento);
+                }
+                righe.Add("");
+
+                for (int i = 0; i < count; i++)
+                {
+                    // Allinea la descrizione a sinistra (20 caratteri) e il prezzo a destra (8 caratteri)
+                    righe.Add($"{riepilogo[i, 0],-20}{riepilogo[i, 1],8}");
+                    string prezzo = riepilogo[i, 1].Replace("€", "").Trim(); // Rimuove il simbolo "€" e spazi
+                    prezzo = prezzo.Replace('.', ',');
+                    totale += double.Parse(prezzo);
+                }
+                righe.Add("");
+                // "TOTALE:" allineato a sinistra (20), totale a destra (8) in verde
+                righe.Add($"\u001b[32m{"TOTALE:",-20}{(totale + "€"),8}\u001b[0m");
             }
-            righe.Add("");
-            // "TOTALE:" allineato a sinistra (20), totale a destra (8) in verde
-            righe.Add($"\u001b[32m{"TOTALE:",-20}{(totale + "€"),8}\u001b[0m");
+            
             return righe;
+        }
+
+        /// <summary>
+        /// Salva la lista di righe del riepilogo su un file di testo, con un nome che include il nome del cliente e un timestamp per evitare sovrascritture. Sostituisce eventuali caratteri non validi nel nome del cliente con underscore.
+        /// </summary>
+        /// <param name="righe"></param>
+        /// <param name="nomeCliente"></param>
+        static void SalvaScontrinoCliente(List<string> righe, string nomeCliente)
+        {
+            // Pulisce caratteri non validi nel nome file
+            foreach (char c in Path.GetInvalidFileNameChars())
+                nomeCliente = nomeCliente.Replace(c, '_');
+            string timestamp = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+
+            righe.Add("");
+            righe.Add($"Data e ora: {timestamp}");
+
+            // Percorso dinamico Documenti
+            string cartellaDocumenti = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string saveFolder = Path.Combine(cartellaDocumenti, "ScontriniConsole");
+
+            // Crea la cartella se non esiste
+            Directory.CreateDirectory(saveFolder);
+
+            // Timestamp unico
+
+            string nomeFile = $"{nomeCliente}_{timestamp}.txt";
+
+            string percorsoCompleto = Path.Combine(saveFolder, nomeFile);
+
+            File.WriteAllLines(percorsoCompleto, righe);
         }
 
         // Abilita il supporto ANSI su Windows per poter usare i colori

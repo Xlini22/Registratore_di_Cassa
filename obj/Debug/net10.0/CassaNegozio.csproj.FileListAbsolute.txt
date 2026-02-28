@@ -7,7 +7,6 @@ C:\Users\utente\source\repos\Registratore_di_Cassa\obj\Debug\net10.0\CassaNegozi
 C:\Users\utente\source\repos\Registratore_di_Cassa\obj\Debug\net10.0\CassaNegozio.AssemblyInfoInputs.cache
 C:\Users\utente\source\repos\Registratore_di_Cassa\obj\Debug\net10.0\CassaNegozio.AssemblyInfo.cs
 C:\Users\utente\source\repos\Registratore_di_Cassa\obj\Debug\net10.0\CassaNegozio.csproj.CoreCompileInputs.cache
-C:\Users\utente\source\repos\Registratore_di_Cassa\obj\Debug\net10.0\CassaNegozio.sourcelink.json
 C:\Users\utente\source\repos\Registratore_di_Cassa\obj\Debug\net10.0\Registratore di Cassa.dll
 C:\Users\utente\source\repos\Registratore_di_Cassa\obj\Debug\net10.0\refint\Registratore di Cassa.dll
 C:\Users\utente\source\repos\Registratore_di_Cassa\obj\Debug\net10.0\Registratore di Cassa.pdb

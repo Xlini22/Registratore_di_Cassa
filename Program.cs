@@ -6,7 +6,7 @@ using System.Globalization;
 using System.Xml.Schema;
 //salvare il riepilogo su file con [nome cliente] [servizi] [numero incrementale] [data e ora] [metodo di pagamento]
 
-namespace CassaNegozio
+namespace CassaNegozio 
 {
     internal class Program
     {
@@ -34,15 +34,15 @@ namespace CassaNegozio
 
             string comando;
             int variante;
-            double totale = 0;
+            int count = 0; // Contatore per il riepilogo
             bool errore = false;
             string[,] riepilogo = new string[20, 2]; // 20 righe, 2 colonne (descrizione e prezzo)
-            int count = 0; // Contatore per il riepilogo
+            string nomeCliente = "", metodoPagamento = "";
 
             do
             {
                 Console.Clear();
-                StampaMenuAffiancato(riepilogo, count);
+                StampaMenuAffiancato(riepilogo, count, nomeCliente, metodoPagamento);
                 
                 if(errore)
                 {
@@ -58,6 +58,30 @@ namespace CassaNegozio
                 {
                     switch (comando)
                     {
+                        case "n": // Inserisci nome cliente
+                            Console.Clear();
+                            Console.WriteLine("CLIENTE");
+                            Console.WriteLine();
+                            Console.Write("Inserisci nome Cliente: ");
+                            nomeCliente = Console.ReadLine() ?? string.Empty;
+                            break;
+                        case "p": // Salva scontrino su file e resetta tutto
+                            Console.Clear();
+                            Console.WriteLine("METODO DI PAGAMENTO");
+                            Console.WriteLine();
+                            Console.WriteLine("Default: Contanti");
+                            Console.WriteLine("2.       Bancomat");
+                            variante = InserimentoControlloN(true, "SCELTA:");
+                            switch (variante)
+                            {
+                                case 1:
+                                    metodoPagamento = "Contanti";
+                                    break;
+                                case 2:
+                                    metodoPagamento = "Bancomat";
+                                    break;
+                            }
+                            break;
                         case "1": // Piega
                             Console.Clear();
                             Console.WriteLine("PIEGA");
@@ -69,19 +93,16 @@ namespace CassaNegozio
                             switch (variante)
                             {
                                 case 1:
-                                    totale += 20;
                                     riepilogo[count, 0] = "Piega corta";
                                     riepilogo[count, 1] = "20€";
                                     count++;
                                     break;
                                 case 2:
-                                    totale += 22;
                                     riepilogo[count, 0] = "Piega media";
                                     riepilogo[count, 1] = "22€";
                                     count++;
                                     break;
                                 case 3:
-                                    totale += 24;
                                     riepilogo[count, 0] = "Piega lunga";
                                     riepilogo[count, 1] = "24€";
                                     count++;
@@ -93,7 +114,6 @@ namespace CassaNegozio
                             break;
                         case "2": // Taglio
                             Console.Clear();
-                            totale += 24;
                             riepilogo[count, 0] = "Taglio";
                             riepilogo[count, 1] = "24€";
                             count++;
@@ -108,13 +128,11 @@ namespace CassaNegozio
                             switch (variante)
                             {
                                 case 1:
-                                    totale += double.Parse("2,5", CultureInfo.InvariantCulture);
                                     riepilogo[count, 0] = "Balsamo";
                                     riepilogo[count, 1] = "2,5€";
                                     count++;
                                     break;
                                 case 2:
-                                    totale += 3.5;
                                     riepilogo[count, 0] = "Balsamo System";
                                     riepilogo[count, 1] = "3,5€";
                                     count++;
@@ -126,7 +144,6 @@ namespace CassaNegozio
                             break;
                         case "4": // Schiuma-gel
                             Console.Clear();
-                            totale += 1;
                             riepilogo[count, 0] = "Schiuma-gel";
                             riepilogo[count, 1] = "1€";
                             count++;
@@ -141,13 +158,11 @@ namespace CassaNegozio
                             switch (variante)
                             {
                                 case 1:
-                                    totale += 1;
                                     riepilogo[count, 0] = "Shampoo Normale";
                                     riepilogo[count, 1] = "1€";
                                     count++;
                                     break;
                                 case 2:
-                                    totale += 3;
                                     riepilogo[count, 0] = "Shampoo System";
                                     riepilogo[count, 1] = "3€";
                                     count++;
@@ -167,13 +182,11 @@ namespace CassaNegozio
                             switch (variante)
                             {
                                 case 1:
-                                    totale += 35;
                                     riepilogo[count, 0] = "Colore Normale";
                                     riepilogo[count, 1] = "35€";
                                     count++;
                                     break;
                                 case 2:
-                                    totale += 41;
                                     riepilogo[count, 0] = "Colore Plus";
                                     riepilogo[count, 1] = "41€";
                                     count++;
@@ -193,13 +206,11 @@ namespace CassaNegozio
                             switch (variante)
                             {
                                 case 1:
-                                    totale += 60;
                                     riepilogo[count, 0] = "Meches Base";
                                     riepilogo[count, 1] = "60€";
                                     count++;
                                     break;
                                 case 2:
-                                    totale += 70;
                                     riepilogo[count, 0] = "Meches Doppie";
                                     riepilogo[count, 1] = "70€";
                                     count++;
@@ -211,7 +222,6 @@ namespace CassaNegozio
                             break;
                         case "44": // Lozione anticaduta
                             Console.Clear();
-                            totale += 6;
                             riepilogo[count, 0] = "Lozione anticaduta";
                             riepilogo[count, 1] = "6€";
                             count++;
@@ -235,7 +245,6 @@ namespace CassaNegozio
                                 }
                             } while (true);
                             
-                            totale += prezzo;
                             riepilogo[count, 0] = descrizione;
                             riepilogo[count, 1] = $"{prezzo}€";
                             count++;
@@ -245,7 +254,6 @@ namespace CassaNegozio
                             if (count > 0)
                             {
                                 count--;
-                                totale -= double.Parse(riepilogo[count, 1].Replace("€", ""));
                                 riepilogo[count, 0] = "";
                                 riepilogo[count, 1] = "";
                             }
@@ -260,11 +268,25 @@ namespace CassaNegozio
                                 while (count > 0)
                                 {
                                     count--;
-                                    totale -= double.Parse(riepilogo[count, 1].Replace("€", ""));
                                     riepilogo[count, 0] = "";
                                     riepilogo[count, 1] = "";
                                 }
                             }else
+                            {
+                                errore = true;
+                            }
+                            break;
+                        case "0": // Salva scontrino su file e resetta tutto
+                            if (count > 0)
+                            {
+                                while (count > 0)
+                                {
+                                    count--;
+                                    riepilogo[count, 0] = "";
+                                    riepilogo[count, 1] = "";
+                                }
+                            }
+                            else
                             {
                                 errore = true;
                             }
@@ -344,50 +366,14 @@ namespace CassaNegozio
         }
 
         /// <summary>
-        /// Stampa il menu principale e restituisce la scelta dell'utente.
-        /// </summary>
-        static void StampaMenu()
-        {
-            Console.Clear();
-            Console.WriteLine("CASSA");
-            Console.WriteLine("1.  Piega");
-            Console.WriteLine("2.  Taglio");
-            Console.WriteLine("3.  Balsamo");
-            Console.WriteLine("4.  Schiuma-gel");
-            Console.WriteLine("5.  Shampoo");
-            Console.WriteLine("7.  Colore");
-            Console.WriteLine("9.  Meches");
-            Console.WriteLine("44. Lozione");
-            Console.WriteLine("22. Voce personalizzata");
-            Console.WriteLine("99. Cancella ultimo inserimento");
-            Console.WriteLine();
-            Console.WriteLine("0.  ESCI");
-            Console.WriteLine();
-        }
-
-        /// <summary>
-        /// Stampa il riepilogo delle prestazioni inserite finora e il totale.
+        /// stampa il menu principale e il riepilogo affiancati, allineando le descrizioni a sinistra e i prezzi a destra, con una larghezza fissa per la prima colonna.
         /// </summary> <param name="riepilogo">Array con le descrizioni e i prezzi delle prestazioni</param>
         /// <param name="count">Numero di prestazioni inserite finora</param>
-        static void StampaTotale(string[,] riepilogo, int count)
-        {
-            double totale = 0;
-            Console.WriteLine("RIEPILOGO:");
-            for (int i = 0; i < count; i++)
-            {
-                Console.WriteLine($"{riepilogo[i, 0]} - {riepilogo[i, 1]}");
-                totale += double.Parse(riepilogo[i, 1].Replace("€", ""));
-            }
-            Console.WriteLine();
-            Console.WriteLine($"TOTALE: {totale}€");
-        }
-
-        // Questa funzione combina i due menu
-        static void StampaMenuAffiancato(string[,] riepilogo, int count)
+        static void StampaMenuAffiancato(string[,] riepilogo, int count, string nomeCliente, string metodoPagamento)
         {
             // Prendi le righe dei due menu come liste di stringhe
-            List<string> menu1 = StampaMenuString();
-            List<string> menu2 = StampaTotaleString(riepilogo, count);
+            List<string> menu1 = CreaMenuString();
+            List<string> menu2 = CreaRiepilogoString(riepilogo, count, nomeCliente, metodoPagamento);
 
             int maxRighe = Math.Max(menu1.Count, menu2.Count);
             int larghezzaColonna = 50; // Larghezza fissa per la prima colonna
@@ -401,12 +387,19 @@ namespace CassaNegozio
             }
         }
 
-        // Versione che restituisce il menu come lista di stringhe
-        static List<string> StampaMenuString()
+        /// <summary>
+        /// Crea una lista di stringhe che rappresentano le righe del menu principale, da poter affiancare al riepilogo.
+        /// </summary>
+        /// <returns>Lista di stringhe con le righe del menu</returns>
+        static List<string> CreaMenuString()
         {
             List<string> righe =
             [
                 "CASSA",
+                "",
+                "n.  Nome cliente",
+                "p.  Metodo di pagamento",
+                "",
                 "1.  Piega",
                 "2.  Taglio",
                 "3.  Balsamo",
@@ -419,18 +412,37 @@ namespace CassaNegozio
                 "99. Cancella ultimo inserimento",
                 "999. Cancella tutto",
                 "",
+                "0. Salva scontrino",
+                "",
                 "exit.  ESCI",
                 "",
             ];
             return righe;
         }
 
-        // Versione che restituisce il riepilogo come lista di stringhe
-        static List<string> StampaTotaleString(string[,] riepilogo, int count)
+        /// <summary>
+        /// Crea una lista di stringhe che rappresentano le righe del riepilogo, con descrizioni allineate a sinistra e prezzi a destra, e il totale finale in verde.
+        /// </summary> <param name="riepilogo">Array con le descrizioni e i prezzi delle prestazioni</param>
+        /// <param name="count">Numero di prestazioni inserite finora</param>
+        /// <returns>Lista di stringhe con le righe del riepilogo</returns>
+        static List<string> CreaRiepilogoString(string[,] riepilogo, int count, string nomeCliente, string metodoPagamento)
         {
             List<string> righe = [];
             double totale = 0;
             righe.Add("RIEPILOGO:");
+
+            righe.Add("");
+            if (!string.IsNullOrWhiteSpace(nomeCliente)) //controllache il nome cliente non sia vuoto o solo spazi prima di aggiungerlo al riepilogo
+            {
+                righe.Add("Cliente: " + nomeCliente);
+            }
+
+            if (!string.IsNullOrWhiteSpace(metodoPagamento)) //controlla che il metodo di pagamento non sia vuoto o solo spazi prima di aggiungerlo al riepilogo
+            {
+                righe.Add("Pagamento: " + metodoPagamento);
+            }
+            righe.Add("");
+
             for (int i = 0; i < count; i++)
             {
                 // Allinea la descrizione a sinistra (20 caratteri) e il prezzo a destra (8 caratteri)

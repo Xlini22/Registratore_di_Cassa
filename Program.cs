@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Globalization;
 using System.Xml.Schema;
 //salvare il riepilogo su file con [nome cliente] [servizi] [numero incrementale] [data e ora] [metodo di pagamento]
@@ -43,24 +44,24 @@ namespace CassaNegozio
             // Menu principale
             List<string> Menu =
             [
-                "CASSA",
+                "     CASSA",
                 "",
-                "n.  Nome cliente",
-                "p.  Metodo di pagamento",
+                "n.   Nome cliente",
+                "p.   Metodo di pagamento",
                 "",
-                "1.  Piega",
-                "2.  Taglio",
-                "3.  Balsamo",
-                "4.  Schiuma-gel",
-                "5.  Shampoo",
-                "7.  Colore",
-                "9.  Meches",
-                "44. Lozione",
-                "22. Voce personalizzata",
-                "99. Cancella ultimo inserimento",
+                "1.   Piega",
+                "2.   Taglio",
+                "3.   Balsamo",
+                "4.   Schiuma-gel",
+                "5.   Shampoo",
+                "7.   Colore",
+                "9.   Meches",
+                "44.  Lozione",
+                "22.  Voce personalizzata",
+                "99.  Cancella ultimo inserimento",
                 "999. Cancella tutto",
                 "",
-                "0. Salva scontrino",
+                "0.   Salva scontrino",
                 "",
                 "exit.  ESCI",
                 "",
@@ -517,10 +518,13 @@ namespace CassaNegozio
             // Pulisce caratteri non validi nel nome file
             foreach (char c in Path.GetInvalidFileNameChars())
                 nomeCliente = nomeCliente.Replace(c, '_');
-            string timestamp = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+                string data = DateTime.Now.ToString("dd-MM-yyyy");
+                string ora = DateTime.Now.ToString("HH-mm-ss");
+                string oraDisplay = ora.Replace('-', ':');
 
             righe.Add("");
-            righe.Add($"Data e ora: {timestamp}");
+            righe.Add($"Data: {data}");
+                righe.Add($"Ora: {oraDisplay}");
 
             // Percorso dinamico Documenti
             string cartellaDocumenti = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -529,11 +533,19 @@ namespace CassaNegozio
             // Crea la cartella se non esiste
             Directory.CreateDirectory(saveFolder);
 
-            // Timestamp unico
+            // Nome file unico basato su data e ora
 
-            string nomeFile = $"{nomeCliente}_{timestamp}.txt";
+            string nomeFile = $"{nomeCliente}_{data}_{ora}.txt";
 
             string percorsoCompleto = Path.Combine(saveFolder, nomeFile);
+
+            // Rimuovi eventuali sequenze ANSI (es. ESC[32m) o frammenti corrotti come "b[32m" dalle righe
+            for (int i = 0; i < righe.Count; i++)
+            {
+                if (righe[i] == null) continue;
+                righe[i] = Regex.Replace(righe[i], "\\x1B\\[[0-9;]*m", "");
+                righe[i] = righe[i].Replace("b[32m", "").Replace("b[0m", "").Replace("[0m", "");
+            }
 
             File.WriteAllLines(percorsoCompleto, righe);
         }

@@ -79,6 +79,7 @@ namespace CassaNegozio
                     errore = false; // Resetta l'errore per il prossimo ciclo
                 }
 
+                // Se è stato salvato, mostra il messaggio corrispondente e resetta il contatore dei salvataggi
                 if (salvato > 0)
                 {
                     // 1 successo
@@ -110,6 +111,7 @@ namespace CassaNegozio
                     salvato = 0; // Resetta il contatore dei salvataggi per il prossimo ciclo
                 }
 
+                // Chiede all'utente di inserire un comando finché non è valido (gestisce l'errore di input vuoto o non valido)
                 comando = InserimentoStringa(false, "SCELTA:");
 
                 if(comando != "exit")
@@ -517,14 +519,17 @@ namespace CassaNegozio
         {
             // Pulisce caratteri non validi nel nome file
             foreach (char c in Path.GetInvalidFileNameChars())
+            {
                 nomeCliente = nomeCliente.Replace(c, '_');
-                string data = DateTime.Now.ToString("dd-MM-yyyy");
-                string ora = DateTime.Now.ToString("HH-mm-ss");
-                string oraDisplay = ora.Replace('-', ':');
+            }
+
+            string data = DateTime.Now.ToString("dd-MM-yyyy");
+            string ora = DateTime.Now.ToString("HH-mm-ss");
+            string oraDisplay = ora.Replace('-', ':');
 
             righe.Add("");
             righe.Add($"Data: {data}");
-                righe.Add($"Ora: {oraDisplay}");
+            righe.Add($"Ora: {oraDisplay}");
 
             // Percorso dinamico Documenti
             string cartellaDocumenti = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -533,13 +538,12 @@ namespace CassaNegozio
             // Crea la cartella se non esiste
             Directory.CreateDirectory(saveFolder);
 
-            // Nome file unico basato su data e ora
-
+            // Nome file unico basato su nome, data e ora
             string nomeFile = $"{nomeCliente}_{data}_{ora}.txt";
 
             string percorsoCompleto = Path.Combine(saveFolder, nomeFile);
 
-            // Rimuovi eventuali sequenze ANSI (es. ESC[32m) o frammenti corrotti come "b[32m" dalle righe
+            // rimuove eventuali codici di colore ANSI dalle righe prima di salvarle su file, per evitare che appaiano come caratteri strani nel file di testo
             for (int i = 0; i < righe.Count; i++)
             {
                 if (righe[i] == null) continue;
@@ -547,10 +551,14 @@ namespace CassaNegozio
                 righe[i] = righe[i].Replace("b[32m", "").Replace("b[0m", "").Replace("[0m", "");
             }
 
+            // Salva le righe su file
             File.WriteAllLines(percorsoCompleto, righe);
         }
 
-        // Abilita il supporto ANSI su Windows per poter usare i colori
+        /// <summary>
+        /// Abilita il supporto ANSI su Windows per poter usare i colori nella console.
+        /// Senza questa funzione, i codici di colore ANSI verrebbero visualizzati come testo normale invece di colorare l'output.
+        /// </summary>
         static void EnableWindowsAnsi()
         {
             var handle = GetStdHandle(STD_OUTPUT_HANDLE);

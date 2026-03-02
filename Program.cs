@@ -40,18 +40,43 @@ namespace CassaNegozio
             string[,] riepilogo = new string[20, 2]; // 20 righe, 2 colonne (descrizione e prezzo)
             string nomeCliente = "", metodoPagamento = "";
 
+            // Menu principale
+            List<string> Menu =
+            [
+                "CASSA",
+                "",
+                "n.  Nome cliente",
+                "p.  Metodo di pagamento",
+                "",
+                "1.  Piega",
+                "2.  Taglio",
+                "3.  Balsamo",
+                "4.  Schiuma-gel",
+                "5.  Shampoo",
+                "7.  Colore",
+                "9.  Meches",
+                "44. Lozione",
+                "22. Voce personalizzata",
+                "99. Cancella ultimo inserimento",
+                "999. Cancella tutto",
+                "",
+                "0. Salva scontrino",
+                "",
+                "exit.  ESCI",
+                "",
+            ];
+
             do
             {
                 Console.Clear();
-                StampaMenuAffiancato(riepilogo, count, nomeCliente, metodoPagamento);
+                StampaMenuAffiancato(Menu, riepilogo, count, nomeCliente, metodoPagamento);
                 
+                // Se c'è un errore, mostra il messaggio e resetta l'errore
                 if(errore)
                 {
-                    // Se c'è un errore, mostra il messaggio e resetta l'errore
                     Console.WriteLine("\u001b[31m⚠ ERRORE: Inserimento non valido!\u001b[0m");
                     errore = false; // Resetta l'errore per il prossimo ciclo
                 }
-                errore = false; // Resetta l'errore per il prossimo ciclo
 
                 if (salvato > 0)
                 {
@@ -423,10 +448,10 @@ namespace CassaNegozio
         /// stampa il menu principale e il riepilogo affiancati, allineando le descrizioni a sinistra e i prezzi a destra, con una larghezza fissa per la prima colonna.
         /// </summary> <param name="riepilogo">Array con le descrizioni e i prezzi delle prestazioni</param>
         /// <param name="count">Numero di prestazioni inserite finora</param>
-        static void StampaMenuAffiancato(string[,] riepilogo, int count, string nomeCliente, string metodoPagamento)
+        static void StampaMenuAffiancato(List<string> menu, string[,] riepilogo, int count, string nomeCliente, string metodoPagamento)
         {
             // Prendi le righe dei due menu come liste di stringhe
-            List<string> menu1 = CreaMenuString();
+            List<string> menu1 = menu;
             List<string> menu2 = CreaRiepilogoString(riepilogo, count, nomeCliente, metodoPagamento);
 
             int maxRighe = Math.Max(menu1.Count, menu2.Count);
@@ -439,39 +464,6 @@ namespace CassaNegozio
 
                 Console.WriteLine(col1.PadRight(larghezzaColonna) + col2);
             }
-        }
-
-        /// <summary>
-        /// Crea una lista di stringhe che rappresentano le righe del menu principale, da poter affiancare al riepilogo.
-        /// </summary>
-        /// <returns>Lista di stringhe con le righe del menu</returns>
-        static List<string> CreaMenuString()
-        {
-            List<string> righe =
-            [
-                "CASSA",
-                "",
-                "n.  Nome cliente",
-                "p.  Metodo di pagamento",
-                "",
-                "1.  Piega",
-                "2.  Taglio",
-                "3.  Balsamo",
-                "4.  Schiuma-gel",
-                "5.  Shampoo",
-                "7.  Colore",
-                "9.  Meches",
-                "44. Lozione",
-                "22. Voce personalizzata",
-                "99. Cancella ultimo inserimento",
-                "999. Cancella tutto",
-                "",
-                "0. Salva scontrino",
-                "",
-                "exit.  ESCI",
-                "",
-            ];
-            return righe;
         }
 
         /// <summary>

@@ -27,6 +27,7 @@ namespace CassaNegozio
 
         static void Main(string[] args)
         {
+            Console.Title = "Registratore di Cassa";
             Console.OutputEncoding = Encoding.UTF8;
 
             if (OperatingSystem.IsWindows())
@@ -77,7 +78,7 @@ namespace CassaNegozio
                 // Se c'è un errore, mostra il messaggio e resetta l'errore
                 if(errore)
                 {
-                    Console.WriteLine("\u001b[31m⚠ ERRORE: Inserimento non valido!\u001b[0m");
+                    Console.WriteLine("\u001b[31m[!] ERRORE: Inserimento non valido!\u001b[0m");
                     errore = false; // Resetta l'errore per il prossimo ciclo
                 }
 
@@ -96,19 +97,19 @@ namespace CassaNegozio
                     }
                     else if(salvato == 2)
                     {
-                        Console.WriteLine("\u001b[31m⚠ ERRORE: Metodo di pagamento mancante!\u001b[0m");
+                        Console.WriteLine("\u001b[31m[!] ERRORE: Metodo di pagamento mancante!\u001b[0m");
                     }
                     else if(salvato == 3)
                     {
-                        Console.WriteLine("\u001b[31m⚠ ERRORE: Nome cliente mancante!\u001b[0m");
+                        Console.WriteLine("\u001b[31m[!] ERRORE: Nome cliente mancante!\u001b[0m");
                     }
                     else if(salvato == 4)
                     {
-                        Console.WriteLine("\u001b[31m⚠ ERRORE: Devi inserire almeno una prestazione!\u001b[0m");
+                        Console.WriteLine("\u001b[31m[!] ERRORE: Devi inserire almeno una prestazione!\u001b[0m");
                     }
                     else if (salvato == 5)
                     {
-                        Console.WriteLine("\u001b[31m⚠ ERRORE: Devi inserire il metodo di pagamento e il nome cliente!\u001b[0m");
+                        Console.WriteLine("\u001b[31m[!] ERRORE: Devi inserire il metodo di pagamento e il nome cliente!\u001b[0m");
                     }
                     salvato = 0; // Resetta il contatore dei salvataggi per il prossimo ciclo
                 }
@@ -423,7 +424,7 @@ namespace CassaNegozio
 
                 if (errore)
                 {
-                    Console.WriteLine("\u001b[31m⚠ ERRORE: Inserimento non valido!\u001b[0m");
+                    Console.WriteLine("\u001b[31m[!] ERRORE: Inserimento non valido!\u001b[0m");
                     errore = false;
                 }
 

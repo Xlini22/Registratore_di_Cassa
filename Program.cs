@@ -49,14 +49,15 @@ namespace CassaNegozio
                 "n.   Nome cliente",
                 "p.   Metodo di pagamento",
                 "",
-                "1.   Piega",
-                "2.   Taglio",
-                "3.   Balsamo",
-                "4.   Schiuma-gel",
-                "5.   Shampoo",
-                "7.   Colore",
-                "9.   Meches",
-                "44.  Lozione",
+                "\u001b[90m1.   Piega\u001b[0m",
+                "\u001b[32m2.   Taglio\u001b[0m",
+                "\u001b[94m3.   Balsamo\u001b[0m",
+                "\u001b[95m4.   Schiuma-gel\u001b[0m",
+                "\u001b[33m5.   Shampoo\u001b[0m",
+                "\u001b[31m7.   Colore\u001b[0m",
+                "\u001b[96m9.   Meches\u001b[0m",
+                "\u001b[95m44.  Lozione\u001b[0m",
+                "",
                 "22.  Voce personalizzata",
                 "99.  Cancella ultimo inserimento",
                 "999. Cancella tutto",
@@ -64,7 +65,7 @@ namespace CassaNegozio
                 "0.   Salva scontrino",
                 "",
                 "exit.  ESCI",
-                "",
+                ""
             ];
 
             do
@@ -458,17 +459,23 @@ namespace CassaNegozio
             List<string> menu2 = CreaRiepilogoString(riepilogo, count, nomeCliente, metodoPagamento);
 
             int maxRighe = Math.Max(menu1.Count, menu2.Count);
-            int larghezzaColonna = 50; // Larghezza fissa per la prima colonna
+            int larghezzaColonna = 50;
 
             for (int i = 0; i < maxRighe; i++)
             {
                 string col1 = i < menu1.Count ? menu1[i] : "";
                 string col2 = i < menu2.Count ? menu2[i] : "";
 
-                Console.WriteLine(col1.PadRight(larghezzaColonna) + col2);
+                int lunghezzaVisiva = RimuoviAnsi(col1).Length;
+                int spaziDaAggiungere = larghezzaColonna - lunghezzaVisiva;
+
+                if (spaziDaAggiungere < 0)
+                    spaziDaAggiungere = 0;
+
+                Console.WriteLine(col1 + new string(' ', spaziDaAggiungere) + col2);
             }
         }
-
+        
         /// <summary>
         /// Crea una lista di stringhe che rappresentano le righe del riepilogo, con descrizioni allineate a sinistra e prezzi a destra, e il totale finale in verde.
         /// </summary> <param name="riepilogo">Array con le descrizioni e i prezzi delle prestazioni</param>
@@ -483,7 +490,7 @@ namespace CassaNegozio
                 righe.Add("RIEPILOGO:");
 
                 righe.Add("");
-                if (!string.IsNullOrWhiteSpace(nomeCliente)) //controllache il nome cliente non sia vuoto o solo spazi prima di aggiungerlo al riepilogo
+                if (!string.IsNullOrWhiteSpace(nomeCliente)) //controlla che il nome cliente non sia vuoto o solo spazi prima di aggiungerlo al riepilogo
                 {
                     righe.Add("Cliente: " + nomeCliente);
                 }
@@ -556,8 +563,17 @@ namespace CassaNegozio
         }
 
         /// <summary>
-        /// Abilita il supporto ANSI su Windows per poter usare i colori nella console.
-        /// Senza questa funzione, i codici di colore ANSI verrebbero visualizzati come testo normale invece di colorare l'output.
+        /// Rimuove le sequenze ANSI (es. ESC[32m) da una stringa, in modo da poter calcolare correttamente la lunghezza visiva della stringa senza i codici di formattazione. Utile per allineare correttamente le colonne quando si usano colori o altri stili ANSI.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns> La stringa di input senza le sequenze ANSI/// </returns>
+        static string RimuoviAnsi(string input)
+        {
+            return Regex.Replace(input, @"\x1B\[[0-9;]*m", "");
+        }
+
+        /// <summary>
+        /// Abilita il supporto per le sequenze ANSI su Windows, in modo da poter usare colori e stili nel menu e nel riepilogo. Su altri sistemi operativi (Linux, macOS) il supporto ANSI è già abilitato di default.
         /// </summary>
         static void EnableWindowsAnsi()
         {

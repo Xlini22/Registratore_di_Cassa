@@ -11,6 +11,7 @@ namespace CassaNegozio
 {
     internal class Program
     {
+        #region Import per abilitare ANSI su Windows
         [DllImport("kernel32.dll", SetLastError = true)]
         static extern bool GetConsoleMode(IntPtr hConsoleHandle, out uint lpMode);
 
@@ -22,7 +23,7 @@ namespace CassaNegozio
 
         const int STD_OUTPUT_HANDLE = -11;
         const uint ENABLE_VIRTUAL_TERMINAL_PROCESSING = 0x0004;
-
+        #endregion
 
         static void Main(string[] args)
         {
@@ -103,7 +104,7 @@ namespace CassaNegozio
                     }
                     else if(salvato == 4)
                     {
-                        Console.WriteLine("\u001b[31m⚠ ERRORE: Devi inserire almento una prestazione!\u001b[0m");
+                        Console.WriteLine("\u001b[31m⚠ ERRORE: Devi inserire almeno una prestazione!\u001b[0m");
                     }
                     else if (salvato == 5)
                     {
@@ -394,7 +395,7 @@ namespace CassaNegozio
             }while (comando != "exit");
         }
 
-
+        #region Funzioni
         /// <summary>
         /// Chiede all'utente di inserire un numero intero e lo restituisce.
         /// Continua a chiedere finché l'input non è valido.
@@ -596,5 +597,6 @@ namespace CassaNegozio
                 SetConsoleMode(handle, mode | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
             }
         }
+        #endregion
     }
 }

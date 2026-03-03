@@ -145,34 +145,17 @@ namespace CassaNegozio
                             }
                             break;
                         case "1": // Piega
-                            Console.Clear();
-                            Console.WriteLine("PIEGA");
-                            Console.WriteLine();
-                            Console.WriteLine("Default: Corta (20€)");
-                            Console.WriteLine("2.       Media (22€)");
-                            Console.WriteLine("3.       Lunga (24€)");
-                            variante = InserimentoControlloN(true, "SCELTA:");
-                            switch (variante)
+
+                            // dichiarazione lista di tuple per il menu variante della piega, in modo da poterla passare alla funzione MostraMenuVariante
+                            var piegaMenu = new List<(string, double)>
                             {
-                                case 1:
-                                    riepilogo[count, 0] = "Piega corta";
-                                    riepilogo[count, 1] = "20€";
-                                    count++;
-                                    break;
-                                case 2:
-                                    riepilogo[count, 0] = "Piega media";
-                                    riepilogo[count, 1] = "22€";
-                                    count++;
-                                    break;
-                                case 3:
-                                    riepilogo[count, 0] = "Piega lunga";
-                                    riepilogo[count, 1] = "24€";
-                                    count++;
-                                    break;
-                                default:
-                                    Console.WriteLine("Scelta non valida!");
-                                    break;
-                            }
+                                ("Piega corta", 20),
+                                ("Piega media", 22),
+                                ("Piega lunga", 24)
+                            };
+
+                            MostraMenuVariante("PIEGA", piegaMenu, riepilogo, ref count);
+
                             break;
                         case "2": // Taglio
                             Console.Clear();
@@ -181,34 +164,14 @@ namespace CassaNegozio
                             count++;
                             break;
                         case "3": // Balsamo
-                            do
+
+                            var balsamoMenu = new List<(string, double)>
                             {
-                                Console.Clear();
-                                Console.WriteLine("BALSAMO");
-                                Console.WriteLine();
-                                Console.WriteLine("Default: Normale (2,5€)");
-                                Console.WriteLine("2.       System (3,5€)");
-                                Console.WriteLine("0.       ANNULLA");
-                                variante = InserimentoControlloN(true, "SCELTA:");
-                                switch (variante)
-                                {
-                                    case 1:
-                                        riepilogo[count, 0] = "Balsamo";
-                                        riepilogo[count, 1] = "2,5€";
-                                        count++;
-                                        break;
-                                    case 2:
-                                        riepilogo[count, 0] = "Balsamo System";
-                                        riepilogo[count, 1] = "3,5€";
-                                        count++;
-                                        break;
-                                    case 0:
-                                        break;
-                                    default:
-                                        Console.WriteLine("Scelta non valida!");
-                                        break;
-                                }
-                            }while (variante > 2); // ciclo do-while per poter usare break in caso di scelta non valida, senza uscire completamente dal case
+                                ("Balsamo normale", 2.5),
+                                ("Balsamo system", 3.5)
+                            };
+
+                            MostraMenuVariante("BALSAMO", balsamoMenu, riepilogo, ref count);
                             
                             break;
                         case "4": // Schiuma-gel
@@ -218,76 +181,37 @@ namespace CassaNegozio
                             count++;
                             break;
                         case "5": // Shampoo
-                            Console.Clear();
-                            Console.WriteLine("SHAMPOO");
-                            Console.WriteLine();
-                            Console.WriteLine("Default: Normale (1€)");
-                            Console.WriteLine("2.       System (3€)");
-                            variante = InserimentoControlloN(true, "SCELTA:");
-                            switch (variante)
+
+                            var shampooMenu = new List<(string, double)>
                             {
-                                case 1:
-                                    riepilogo[count, 0] = "Shampoo Normale";
-                                    riepilogo[count, 1] = "1€";
-                                    count++;
-                                    break;
-                                case 2:
-                                    riepilogo[count, 0] = "Shampoo System";
-                                    riepilogo[count, 1] = "3€";
-                                    count++;
-                                    break;
-                                default:
-                                    Console.WriteLine("Scelta non valida!");
-                                    break;
-                            }
+                                ("Shampoo normale", 1),
+                                ("Shampoo system", 3)
+                            };
+
+                            MostraMenuVariante("SHAMPOO", shampooMenu, riepilogo, ref count);
+
                             break;
                         case "7": // Colore
-                            Console.Clear();
-                            Console.WriteLine("COLORE");
-                            Console.WriteLine();
-                            Console.WriteLine("Default: Normale (35€)");
-                            Console.WriteLine("2.       Plus (41€)");
-                            variante = InserimentoControlloN(true, "SCELTA:");
-                            switch (variante)
+
+                            var coloreMenu = new List<(string, double)>
                             {
-                                case 1:
-                                    riepilogo[count, 0] = "Colore Normale";
-                                    riepilogo[count, 1] = "35€";
-                                    count++;
-                                    break;
-                                case 2:
-                                    riepilogo[count, 0] = "Colore Plus";
-                                    riepilogo[count, 1] = "41€";
-                                    count++;
-                                    break;
-                                default:
-                                    Console.WriteLine("Scelta non valida!");
-                                    break;
-                            }
+                                ("Colore normale", 35),
+                                ("Colore plus", 41)
+                            };
+
+                            MostraMenuVariante("COLORE", coloreMenu, riepilogo, ref count);
+
                             break;
                         case "9": // Meches
-                            Console.Clear();
-                            Console.WriteLine("MECHES");
-                            Console.WriteLine();
-                            Console.WriteLine("Default: Base (60€)");
-                            Console.WriteLine("2.       Doppie (70€)");
-                            variante = InserimentoControlloN(true, "SCELTA:");
-                            switch (variante)
+
+                            var mechesMenu = new List<(string, double)>
                             {
-                                case 1:
-                                    riepilogo[count, 0] = "Meches Base";
-                                    riepilogo[count, 1] = "60€";
-                                    count++;
-                                    break;
-                                case 2:
-                                    riepilogo[count, 0] = "Meches Doppie";
-                                    riepilogo[count, 1] = "70€";
-                                    count++;
-                                    break;
-                                default:
-                                    Console.WriteLine("Scelta non valida!");
-                                    break;
-                            }
+                                ("Meches Base", 60),
+                                ("Meches Doppie", 70)
+                            };
+
+                            MostraMenuVariante("MECHES", mechesMenu, riepilogo, ref count);
+
                             break;
                         case "44": // Lozione anticaduta
                             Console.Clear();
@@ -466,6 +390,62 @@ namespace CassaNegozio
             }
 
             return input;
+        }
+
+        /// <summary>
+        /// Stampa un menu di varianti (es. per la piega: corta, media, lunga) e permette all'utente di scegliere una variante. Aggiorna il riepilogo con la descrizione e il prezzo della variante scelta. Gestisce l'errore di input non valido e permette di annullare la scelta tornando al menu principale. La lista di opzioni è passata come parametro come lista di tuple (Nome, Prezzo) per semplificare la gestione del menu variante e rendere il codice più modulare.
+        /// </summary>
+        /// <param name="titolo">Quello che viene mostrato come titolo del menu</param>
+        /// <param name="opzioni">Le opzioni disponibili nel menu</param>
+        /// <param name="riepilogo">L'array dove verrà salvata la scelta dell'utente</param>
+        /// <param name="count">L'indice del riepilogo da aggiornare</param>
+        /// <returns>Ritorna l'indice della variante scelta (1-based) o 0 se annullata.</returns>
+        static int MostraMenuVariante(string titolo, List<(string Nome, double Prezzo)> opzioni, string[,] riepilogo, ref int count)
+        {
+            bool errore = false;
+            int scelta;
+
+            do
+            {
+                Console.Clear();
+                Console.WriteLine(titolo);
+                Console.WriteLine();
+
+                for (int i = 0; i < opzioni.Count; i++)
+                {
+                    string prefisso = i == 0 ? "Default:" : $"{i + 1}.";
+                    Console.WriteLine($"{prefisso,-10} {opzioni[i].Nome} ({opzioni[i].Prezzo}€)");
+                }
+
+                Console.WriteLine("");
+                Console.WriteLine("0.         ANNULLA");
+                Console.WriteLine("");
+
+                if (errore)
+                {
+                    Console.WriteLine("\u001b[31m⚠ ERRORE: Inserimento non valido!\u001b[0m");
+                    errore = false;
+                }
+
+                scelta = InserimentoControlloN(true, "SCELTA:");
+
+                if (scelta >= 1 && scelta <= opzioni.Count)
+                {
+                    riepilogo[count, 0] = opzioni[scelta - 1].Nome;
+                    riepilogo[count, 1] = opzioni[scelta - 1].Prezzo + "€";
+                    count++;
+                    return scelta;
+                }
+                else if (scelta == 0)
+                {
+                    return 0;
+                }
+                else
+                {
+                    errore = true;
+                }
+
+            } while (true);
         }
 
         /// <summary>

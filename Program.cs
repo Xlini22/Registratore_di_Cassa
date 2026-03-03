@@ -338,32 +338,44 @@ namespace CassaNegozio
                             }
                             break;
                         case "0": // Salva scontrino su file e resetta tutto
-                            if (count > 0) // casi in cui le prestazioni sono state inserite ma mancano altri fattori
+                            if (count > 0) // casi in cui le prestazioni sono state inserite
                             {
+                                // tutto corretto, salva scontrino
                                 if (!string.IsNullOrWhiteSpace(nomeCliente) && !string.IsNullOrWhiteSpace(metodoPagamento))
                                 {
+                                    // crea riepilogo e salva lo scontrino su file
                                     List<string> righe = CreaRiepilogoString(riepilogo, count, nomeCliente, metodoPagamento);
                                     SalvaScontrinoCliente(righe, nomeCliente);
 
+                                    // resetta tutte le prestazioni
                                     while (count > 0)
                                     {
                                         count--;
                                         riepilogo[count, 0] = "";
                                         riepilogo[count, 1] = "";
                                     }
+                                    
+                                    // resetta nome cliente e metodo di pagamento
+                                    nomeCliente = "";
+                                    metodoPagamento = "";
+                                    
+                                    // segnala che è stato salvato correttamente
                                     salvato = 1;
                                 }
-                                else if (!string.IsNullOrWhiteSpace(nomeCliente) && string.IsNullOrWhiteSpace(metodoPagamento)) // Caso in cui solo il metodo di pagamento non è stato inserito
+                                // Caso in cui solo il metodo di pagamento non è stato inserito
+                                else if (!string.IsNullOrWhiteSpace(nomeCliente) && string.IsNullOrWhiteSpace(metodoPagamento)) 
                                 {
-                                    salvato = 2; // Codice errore 2
+                                    salvato = 2; // metodo di pagamento mancante, codice errore 2
                                 }
-                                else if (string.IsNullOrWhiteSpace(nomeCliente) && !string.IsNullOrWhiteSpace(metodoPagamento)) // Caso in cui solo il nome cliente non è stato inserito
+                                // Caso in cui solo il nome cliente non è stato inserito
+                                else if (string.IsNullOrWhiteSpace(nomeCliente) && !string.IsNullOrWhiteSpace(metodoPagamento)) 
                                 {
-                                    salvato = 3; // Codice errore 3
+                                    salvato = 3; // nome cliente mancante, codice errore 3
                                 }
-                                else if (string.IsNullOrWhiteSpace(nomeCliente) && string.IsNullOrWhiteSpace(metodoPagamento)) // Caso in cui non è stato inserito né il nome cliente né il metodo di pagamento
+                                // Caso in cui non è stato inserito né il nome cliente né il metodo di pagamento
+                                else if (string.IsNullOrWhiteSpace(nomeCliente) && string.IsNullOrWhiteSpace(metodoPagamento)) 
                                 {
-                                    salvato = 5; // Codice errore 5
+                                    salvato = 5; // mancano entrambi: nome cliente e metodo di pagamento, codice errore 5
                                 }
                             }
                             else if (count == 0) // Caso in cui non ci sono prestazioni

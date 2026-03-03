@@ -181,28 +181,35 @@ namespace CassaNegozio
                             count++;
                             break;
                         case "3": // Balsamo
-                            Console.Clear();
-                            Console.WriteLine("BALSAMO");
-                            Console.WriteLine();
-                            Console.WriteLine("Default: Normale (2,5€)");
-                            Console.WriteLine("2.       System (3,5€)");
-                            variante = InserimentoControlloN(true, "SCELTA:");
-                            switch (variante)
+                            do
                             {
-                                case 1:
-                                    riepilogo[count, 0] = "Balsamo";
-                                    riepilogo[count, 1] = "2,5€";
-                                    count++;
-                                    break;
-                                case 2:
-                                    riepilogo[count, 0] = "Balsamo System";
-                                    riepilogo[count, 1] = "3,5€";
-                                    count++;
-                                    break;
-                                default:
-                                    Console.WriteLine("Scelta non valida!");
-                                    break;
-                            }
+                                Console.Clear();
+                                Console.WriteLine("BALSAMO");
+                                Console.WriteLine();
+                                Console.WriteLine("Default: Normale (2,5€)");
+                                Console.WriteLine("2.       System (3,5€)");
+                                Console.WriteLine("0.       ANNULLA");
+                                variante = InserimentoControlloN(true, "SCELTA:");
+                                switch (variante)
+                                {
+                                    case 1:
+                                        riepilogo[count, 0] = "Balsamo";
+                                        riepilogo[count, 1] = "2,5€";
+                                        count++;
+                                        break;
+                                    case 2:
+                                        riepilogo[count, 0] = "Balsamo System";
+                                        riepilogo[count, 1] = "3,5€";
+                                        count++;
+                                        break;
+                                    case 0:
+                                        break;
+                                    default:
+                                        Console.WriteLine("Scelta non valida!");
+                                        break;
+                                }
+                            }while (variante > 2); // ciclo do-while per poter usare break in caso di scelta non valida, senza uscire completamente dal case
+                            
                             break;
                         case "4": // Schiuma-gel
                             Console.Clear();

@@ -5,7 +5,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Globalization;
 using System.Xml.Schema;
-//salvare il riepilogo su file con [nome cliente] [servizi] [numero incrementale] [data e ora] [metodo di pagamento]
 
 namespace CassaNegozio 
 {
@@ -229,7 +228,8 @@ namespace CassaNegozio
                             {
                                 Console.Write("Inserisci prezzo: ");
                                 string inputPrezzo = Console.ReadLine() ?? string.Empty;
-                                if (double.TryParse(inputPrezzo, CultureInfo.InvariantCulture, out prezzo))
+                                inputPrezzo = inputPrezzo.Replace('.', ','); // Sostituisce la virgola con il punto per permettere l'inserimento di decimali con la virgola, ma parse con il punto (invariant culture)
+                                if (double.TryParse(inputPrezzo, new CultureInfo("it-IT"), out prezzo))
                                 {
                                     break;
                                 }
@@ -508,7 +508,7 @@ namespace CassaNegozio
                     righe.Add($"{riepilogo[i, 0],-20}{riepilogo[i, 1],8}");
                     string prezzo = riepilogo[i, 1].Replace("€", "").Trim(); // Rimuove il simbolo "€" e spazi
                     prezzo = prezzo.Replace('.', ',');
-                    totale += double.Parse(prezzo);
+                    totale += double.Parse(prezzo,  new CultureInfo("it-IT"));
                 }
                 righe.Add("");
                 // "TOTALE:" allineato a sinistra (20), totale a destra (8) in verde

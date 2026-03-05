@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Globalization;
 using System.Xml.Schema;
+using System.Security.Authentication;
 
 namespace CassaNegozio 
 {
@@ -222,12 +223,14 @@ namespace CassaNegozio
                         case "22": // Voce personalizzata
                             Console.Clear();
                             Console.Write("Inserisci descrizione: ");
+                            Console.Write("");
                             string descrizione = Console.ReadLine() ?? string.Empty;
                             double prezzo;
                             do
                             {
                                 Console.Write("Inserisci prezzo: ");
                                 string inputPrezzo = Console.ReadLine() ?? string.Empty;
+                                Console.Write("");
                                 inputPrezzo = inputPrezzo.Replace('.', ','); // Sostituisce la virgola con il punto per permettere l'inserimento di decimali con la virgola, ma parse con il punto (invariant culture)
                                 if (double.TryParse(inputPrezzo, new CultureInfo("it-IT"), out prezzo))
                                 {
@@ -235,7 +238,7 @@ namespace CassaNegozio
                                 }
                                 else
                                 {
-                                    Console.WriteLine("Devi inserire un prezzo valido!");
+                                    Console.WriteLine("\u001b[31m[!] ERRORE: Devi inserire un prezzo valido!");
                                 }
                             } while (true);
                             
@@ -322,6 +325,25 @@ namespace CassaNegozio
                         default:
                             errore = true;
                             break;
+                    }
+                }
+                else // Controllo chiusura programma, se ci sono prestazioni non salvate chiede conferma all'utente prima di chiudere
+                {
+                    string confermaChiusura = "";
+
+                    Console.Clear();
+                    StampaMenuAffiancato(Menu, riepilogo, count, nomeCliente, metodoPagamento);
+
+                    if (count > 0)
+                    {
+                        Console.WriteLine("\u001b[33m[!] Ci sono prestazioni non salvate, sei sicuro di chiudere il programma? Y/n\u001b[0m");
+                        Console.Write("SCELTA: ");
+                        confermaChiusura = Console.ReadLine() ?? string.Empty;
+                        if (confermaChiusura.ToLower() == "y" || confermaChiusura.ToLower() == "yes"){}
+                        else
+                        {
+                            comando = ""; // Resetta il comando per tornare al menu
+                        }
                     }
                 }
             }while (comando != "exit");

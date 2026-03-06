@@ -495,6 +495,7 @@ namespace CassaNegozio
                 if (spaziDaAggiungere < 0)
                     spaziDaAggiungere = 0;
 
+                Console.SetCursorPosition(2, Console.CursorTop);
                 Console.WriteLine(col1 + new string(' ', spaziDaAggiungere) + col2);
             }
         }

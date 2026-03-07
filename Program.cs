@@ -35,7 +35,7 @@ namespace CassaNegozio
                 EnableWindowsAnsi();
             }
 
-            string comando;
+            string comando = "";
             int variante;
             int count = 0; // Contatore per il riepilogo
             int salvato = 0;
@@ -69,6 +69,11 @@ namespace CassaNegozio
                 "exit.  ESCI",
                 ""
             ];
+
+            //Introduzione di thread secondario con lambda per intercettare la pressione del tasto ESC e chiudere il programma, ma non funziona
+            //Thread escListener = new Thread(() => AscoltaEsc(ref comando)); // Crea un thread separato per ascoltare la pressione del tasto ESC
+            //escListener.IsBackground = true; // si chiude quando il programma termina
+            //escListener.Start();
 
             do
             {
@@ -583,6 +588,26 @@ namespace CassaNegozio
 
             // Salva le righe su file
             File.WriteAllLines(percorsoCompleto, righe);
+        }
+
+        /// <summary>
+        /// Resta in ascolto dei tasti premuti dall'utente e se viene premuto ESC chiude il programma. Viene eseguita in un thread separato per non bloccare il menu principale.
+        /// </summary>
+        static void AscoltaEsc(ref string comando)
+        {
+            while (true)
+            {
+                if (Console.KeyAvailable)
+                {
+                    var key = Console.ReadKey(true);
+
+                    if (key.Key == ConsoleKey.Escape)
+                    {
+                        comando = "exit"; // Imposta il comando a "exit" per far uscire il menu principale
+                    }
+                }
+                //Thread.Sleep(10);
+            }
         }
 
         /// <summary>

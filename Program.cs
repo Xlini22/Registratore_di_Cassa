@@ -344,7 +344,7 @@ namespace CassaNegozio
                         Console.WriteLine("\u001b[33m[!] Ci sono prestazioni non salvate, sei sicuro di chiudere il programma? Y/n\u001b[0m");
                         Console.Write("SCELTA: ");
                         confermaChiusura = Console.ReadLine() ?? string.Empty;
-                        if (confermaChiusura.ToLower() == "y" || confermaChiusura.ToLower() == "yes"){}
+                        if (confermaChiusura.ToLower() == "y" || confermaChiusura.ToLower() == "yes" || confermaChiusura.ToLower() == "s" || confermaChiusura.ToLower() == "si"){}
                         else
                         {
                             comando = ""; // Resetta il comando per tornare al menu
@@ -500,6 +500,7 @@ namespace CassaNegozio
                 if (spaziDaAggiungere < 0)
                     spaziDaAggiungere = 0;
 
+                Console.SetCursorPosition(2, Console.CursorTop);
                 Console.WriteLine(col1 + new string(' ', spaziDaAggiungere) + col2);
             }
         }
